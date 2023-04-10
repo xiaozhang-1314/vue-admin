@@ -1,1 +1,5 @@
-# vue3-admin
+
+
+dev: npm run dev
+
+build: npm run build
