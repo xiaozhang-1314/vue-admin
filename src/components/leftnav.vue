@@ -64,6 +64,14 @@ export default {
               hasThird: 'N',
               url: 'ages/Ages',
               menus: null
+            },
+            {
+              menuid: 7,
+              icon: 'icon-cus-manage',
+              menuname: '用户管理',
+              hasThird: 'N',
+              url: 'system/user',
+              menus: null
             }
           ]
         },
@@ -86,105 +94,6 @@ export default {
                
           ]
         },
-        {
-          menuid: 6,
-          icon: 'li-icon-xitongguanli',
-          menuname: '系统管理',
-          hasThird: null,
-          url: null,
-          menus: [
-            {
-              menuid: 7,
-              icon: 'icon-cus-manage',
-              menuname: '用户管理',
-              hasThird: 'N',
-              url: 'system/user',
-              menus: null
-            },
-            {
-              menuid: 8,
-              icon: 'icon-cms-manage',
-              menuname: '菜单管理',
-              hasThird: 'N',
-              url: 'system/Module',
-              menus: null
-            },
-            {
-              menuid: 73,
-              icon: 'icon-news-manage',
-              menuname: '角色管理',
-              hasThird: 'N',
-              url: 'system/Role',
-              menus: null
-            },
-            {
-              menuid: 74,
-              icon: 'icon-cs-manage',
-              menuname: '公司管理',
-              hasThird: 'N',
-              url: 'system/Dept',
-              menus: null
-            },
-            {
-              menuid: 75,
-              icon: 'icon-promotion-manage',
-              menuname: '系统环境变量',
-              hasThird: 'N',
-              url: 'system/Variable',
-              menus: null
-            },
-            {
-              menuid: 76,
-              icon: 'icon-cms-manage',
-              menuname: '权限管理',
-              hasThird: 'N',
-              url: 'system/Permission',
-              menus: null
-            }
-          ]
-        },
-        {
-          menuid: 128,
-          icon: 'li-icon-shangchengxitongtubiaozitihuayuanwenjian91',
-          menuname: '支付管理',
-          hasThird: null,
-          url: null,
-          menus: [
-            {
-              menuid: 129,
-              icon: 'icon-provider-manage',
-              menuname: '支付配置信息',
-              hasThird: 'N',
-              url: 'machine/MachineConfig',
-              menus: null
-            },
-            {
-              menuid: 175,
-              icon: 'icon-provider-manage',
-              menuname: '支付配置',
-              hasThird: 'N',
-              url: 'pay/Config',
-              menus: null
-            }
-          ]
-        },
-        {
-          menuid: 150,
-          icon: 'li-icon-shangchengxitongtubiaozitihuayuanwenjian91',
-          menuname: '图表',
-          hasThird: null,
-          url: null,
-          menus: [
-            {
-              menuid: 159,
-              icon: 'icon-provider-manage',
-              menuname: '数据可视化',
-              hasThird: 'N',
-              url: 'charts/statistics',
-              menus: null
-            }
-          ]
-        }
       ],
       msg: 'success'
     }

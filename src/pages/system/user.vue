@@ -4,7 +4,7 @@
         <el-main>
           <el-breadcrumb separator-class="el-icon-arrow-right">
           <el-breadcrumb-item :to="{ path: '/goods/Goods' }">首页</el-breadcrumb-item>
-          <el-breadcrumb-item>0元购商品管理</el-breadcrumb-item>
+          <el-breadcrumb-item>用户管理</el-breadcrumb-item>
           </el-breadcrumb>
     <!-- 搜索 -->
         <el-form :inline="true" :model="formInline" class="demo-ruleForm" >
@@ -15,11 +15,11 @@
                 <el-form-item label="活动ID：">
                     <el-input size="small" v-model="formInline.activityCode"  placeholder="请输入"></el-input>
                 </el-form-item>
-                <!-- <el-form-item label="奖励类型：">
+                <el-form-item label="奖励类型：">
                     <el-select v-model="formInline.rewardType" placeholder="请选择">
                         <el-option v-for="type in paydataList.rewardType" :label="type.key" :value="type.value" :key="type.value"></el-option>
                     </el-select>
-                </el-form-item> -->
+                </el-form-item>
                 <el-form-item label="助力条件：">
                     <el-select v-model="formInline.helpCondition" placeholder="请选择">
                         <el-option v-for="type in paydataList.helpCondType" :label="type.key" :value="type.value" :key="type.value"></el-option>

@@ -14,10 +14,11 @@
     </el-select>
     </el-col>
   </el-form-item>
-  <el-form-item >
+  <el-form-item label="价格">
             <div  v-for="(item, index) in ruleForm.MoneyArr" :key="index" style=" display: flex;">
                   <el-col :span="5">
-                      <el-input  v-model="item.cash" :label=labelCompute(index)></el-input>
+                      <el-input  v-model="item.cash" ></el-input>
+                      <!-- <el-input  v-model="item.cash" :label=labelCompute(index)></el-input> -->
                   </el-col>
                       <span >元</span>
                   <el-col :span="5">
@@ -178,9 +179,9 @@ const { mapState, mapActions,mapMutations } = createNamespacedHelpers('user_seve
         if (this.ruleForm.MoneyArr.length > 2) {
           let arr = this.ruleForm.MoneyArr;
           arr.pop({ cash: "", count: "" });
-          this.ruleForm.set({
-            MoneyArr: arr,
-          });
+          // this.ruleForm.set({
+          //   MoneyArr: arr,
+          // });
         } else {
           this.alert.showAlert("info", "最少二档，不能在删除了");
         }
@@ -189,9 +190,9 @@ const { mapState, mapActions,mapMutations } = createNamespacedHelpers('user_seve
         let text = ["一", "二", "三", "四", "五"];
         return `第${text[index]}档 发放金额：`;
       },
-        resourcechange(e){
-           console.log(e);
-        },
+      resourcechange(e){
+          console.log(e);
+      },
       submitForm(formName) {
         console.log(this.ruleForm.type);
         this.$refs[formName].validate((valid) => {
@@ -204,7 +205,7 @@ const { mapState, mapActions,mapMutations } = createNamespacedHelpers('user_seve
         });
       },
       resetForm(formName) {
-        
+        this.$router.back();
       }
     },
     mounted() {

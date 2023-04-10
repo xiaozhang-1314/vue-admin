@@ -30,7 +30,6 @@ module.exports = (env = {}) =>{
     plugins.push(new HtmlWebpackPlugin({template: './src/index.html'}));
 
     return {
-
         entry: './src/main.js',//入口
         output: {
             path: path.resolve(__dirname, './dist'),//输出结果
@@ -77,11 +76,7 @@ module.exports = (env = {}) =>{
                     loader: "style-loader!css-loader",
                     // loader: 'style-loader!css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]',
                     // exclude: /node_modules/
-                },
-
-
-
-                
+                }, 
                 // {
                 //     test: /\.scss$/,
                 //     loader: "style-loader!css-loader!sass-loader!"

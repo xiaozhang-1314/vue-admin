@@ -1,53 +1,29 @@
-
 <template>
   <div class="user-search">
       <el-breadcrumb separator-class="el-icon-arrow-right">
       <el-breadcrumb-item :to="{ path: '/goods/Goods' }">首页</el-breadcrumb-item>
-      <el-breadcrumb-item>0元购商品管理</el-breadcrumb-item>
+      <el-breadcrumb-item>活动管理</el-breadcrumb-item>
       </el-breadcrumb>
     <!-- 搜索 -->
     <el-form :inline="true" :model="formInline" class="demo-ruleForm" label-position="left">
       <div  class="oper-box" style="">
-      <div>
-       <el-form-item label="商品编号：" >
-        <el-input size="small"  v-model="formInline.deptName" placeholder="请输入"></el-input>
-      </el-form-item>
-      <el-form-item label="物料编号：">
-        <el-input size="small" v-model="formInline.id"  placeholder="请输入"></el-input>
-      </el-form-item>
-      <el-form-item label="商品名称：">
-        <el-input size="small" v-model="formInline.deptNo"  placeholder="请输入"></el-input>
-      </el-form-item>
-      <el-form-item label="活动区域：">
-        <el-select v-model="formInline.region" placeholder="请选择">
-          <el-option v-for="type in payType" :label="type.key" :value="type.value" :key="type.value"></el-option>
-        </el-select>
-      </el-form-item>
-      </div>
+          <el-form-item label="商品编号：" >
+            <el-input size="small"  v-model="formInline.deptName" placeholder="请输入"></el-input>
+          </el-form-item>
+          <el-form-item label="物料编号：">
+            <el-input size="small" v-model="formInline.id"  placeholder="请输入"></el-input>
+          </el-form-item>
+          <el-form-item label="商品名称：">
+          <el-input size="small" v-model="formInline.deptNo"  placeholder="请输入"></el-input>
+          </el-form-item>
+          <el-form-item label="活动区域：">
+            <el-select v-model="formInline.region" placeholder="请选择">
+              <el-option v-for="(item,index) in payType" :label="item.key" :value="item.value" :key="index"></el-option>
+            </el-select>
+          </el-form-item>
      <div>
-    <el-form-item label="收货公司：">
-      <el-select v-model="formInline.region" placeholder="请选择">
-        <el-option v-for="type in corporation" :label="type.key" :value="type.value" :key="type.value"></el-option>
-      </el-select>
-    </el-form-item>
-    <el-form-item label="状态：">
-      <el-select v-model="formInline.region" placeholder="请选择">
-        <el-option v-for="type in statusdata" :label="type.key" :value="type.value" :key="type.value"></el-option>
-      </el-select>
-    </el-form-item>
-    <el-form-item label="活动类型：">
-        <el-select v-model="formInline.region" placeholder="请选择">
-          <el-option v-for="type in activitytype" :label="type.key" :value="type.value" :key="type.value"></el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="分类：">
-        <el-select v-model="formInline.activityCycle" placeholder="请选择">
-          <el-option v-for="type in classify" :label="type.key" :value="type.value" :key="type.value"></el-option>
-        </el-select>
-      </el-form-item>
      </div>
       </div>
-
       <el-form-item >
         <el-button size="small" type="primary" icon="el-icon-edit" @click="search">查询</el-button>
         <el-button size="small" type="primary" icon="el-icon-edit" @click="resetForm">重置</el-button>
@@ -58,52 +34,53 @@
         <el-button size="small" type="primary" icon="el-icon-success" @click="deupleEdit(2)">启用</el-button>
         <el-button size="small" type="success" icon="el-icon-remove" @click="deupleEdit(3)">停用</el-button>
         <el-button size="small" type="warning" icon="el-icon-upload" @click="exportTable()">导出</el-button>
+        <el-button size="small" type="warning" icon="el-icon-upload" @click="exporttoTable()">导入</el-button>
       </el-form-item>
       <!-- <table-list ref="luckyDrawTable" :options="optionsTable" class="bgcheid"></table-list> -->
-    </el-form>
-
-     <!-- 列表 -->
-    <!-- <el-table size="small" :data="listData" :ref="ck" :highlight-current-row="false" v-loading="loading" border element-loading-text="拼命加载中" height="450px" style="width: 100%;">
+      <el-table size="small" :data="listsdata" ref="luckyDrawTable" :highlight-current-row="false" v-loading="loading" border element-loading-text="拼命加载中" height="420px" style="width: 1200px;" @selection-change="handleSelectionChange">
       <el-table-column align="center" type="selection" width="60">
       </el-table-column>
-      <el-table-column sortable prop="gcode" label="商品编号" width="150">
+      <el-table-column sortable prop="name" label="活动名称" width="150">
       </el-table-column>
-      <el-table-column sortable prop="id" label="物料编号" width="150">
+      <el-table-column sortable prop="id" label="物料编号" width="100">
       </el-table-column>
-      <el-table-column sortable prop="activityEndTimeStr" label="排序" width="150">
+      <el-table-column sortable prop="fullPayGoodsPic" label="商品图片" width="90">
+        <template slot-scope="scope">
+          <img :src="scope.row.fullPayGoodsPic" height="50px" width="50px" />
+        </template>
       </el-table-column>
-      <el-table-column sortable prop="activityCycle" label="分组" width="150">
+      <el-table-column sortable prop="crowdGoodsName" label="商品名称" width="150">
       </el-table-column>
-      <el-table-column sortable prop="gname" label="商品名称" width="150">
+      <el-table-column sortable prop="targetAmount.cent" label="购买价" width="150">
       </el-table-column>
-      <el-table-column sortable prop="floorNumber" label="购买价" width="150">
+      <el-table-column sortable prop="crowdAmount.centFactor" label="运费" width="150" >
       </el-table-column>
-      <el-table-column sortable prop="acsNumber" label="运费" width="150">
+      <el-table-column sortable prop="bussinessFinish" label="商城" width="150" :formatter="lenovofrom">
       </el-table-column>
-      <el-table-column sortable prop="malltype" label="商城" width="150">
+      <el-table-column sortable prop="careNum" label="购买平台" width="150">
       </el-table-column>
-      <el-table-column sortable prop="activeid" label="购买平台" width="150">
+      <el-table-column sortable prop="faname" label="返现" width="150" :formatter="appfromnum">
       </el-table-column>
-      <el-table-column sortable prop="faname" label="收货公司" width="150">
+      <el-table-column sortable prop="status" label="状态" width="150" :formatter="logisticData">
       </el-table-column>
-      <el-table-column sortable prop="status" label="状态" width="150">
+      <el-table-column sortable prop="createTime" label="开始时间" width="150">
       </el-table-column>
-      <el-table-column sortable prop="createtime" label="开始时间" width="150">
-      </el-table-column>
-      <el-table-column sortable prop="updatetime" label="结束时间" width="150">
-      </el-table-column>      
-    </el-table> -->
-
-
+      <el-table-column sortable prop="eDeliveryTime" label="结束时间" width="150">
+      </el-table-column> 
+      <el-table-column sortable prop="updateBy" label="操作人" width="150">
+      </el-table-column>     
+      </el-table>
+    <Pagination :child-msg="pageparm" @callFather="callFather"></Pagination>
+    </el-form>
     <!-- 新建 -->
-        <el-dialog :title="title" :visible.sync="editFormVisible"  width="50%"  @click="editFormVisible=false" class="addDialog chanel-dialog">
+     <el-dialog :title="title" :visible.sync="editFormVisible"  width="50%"  @click="editFormVisible=false" class="addDialog chanel-dialog">
 
         <el-form label-width="100px" :model="editForm" :rules="rules" ref="editForm">
           <el-row class="layout-content dialog-content text-left">
             <el-col :span="18">
             <el-form-item label="购买平台：" style="width:100%;">
                 <el-checkbox-group v-model="editForm.floorNumber" prop="floorNumber">
-                  <el-checkbox v-for="type in classify" :label="type.key" :value="type.key" :key="type.vlaue" :disabled="bthShow">
+                  <el-checkbox v-for='type in classify' :label='type.key' :value="type.key" :key="type.vlaue" :disabled="bthShow">
                   </el-checkbox>
                 </el-checkbox-group>
           </el-form-item>
@@ -119,8 +96,8 @@
             <el-form-item label="商品排序：" prop="deptNo">
               <el-input size="small" v-model="editForm.deptNo" auto-complete="off" placeholder="请输入商品排序" :disabled="bthShow"></el-input>
             </el-form-item>
-           <el-form-item label="开始时间：" prop="endtime">
-                <el-date-picker v-model="editForm.endtime" type="datetime" placeholder="选择日期时间" :disabled="bthShow">
+           <el-form-item label="开始时间：" prop="eDeliveryTime">
+                <el-date-picker v-model="editForm.eDeliveryTime" type="datetime" placeholder="选择日期时间" :disabled="bthShow">
                 </el-date-picker>
            </el-form-item>
            <el-form-item label="结束时间：" prop="updatetime">
@@ -128,21 +105,17 @@
            </el-date-picker>
            </el-form-item>
            
-             <!-- 图片  -->
+                <!-- 
             <el-form-item label="商品图片：" prop="picture">
               <el-upload  action="/api/file/img/upload" :limit='1' list-type="picture-card" ref="refUpload" name="file"
                 accept="jpeg,png,jpg" :on-preview="handlePictureCardPreview" :on-remove="handleRemove" v-model="editForm.picture"
-                :on-success="handleimg"  :disabled="bthShow">
+               :on-success="handleimg"  :disabled="bthShow">
                 <el-icon >  <Plus />  </el-icon>
                 <template #tip>
                   <span class="el-upload__tip"  :disabled="bthShow">只能传jpg/png/jpeg文件</span>
                 </template>
               </el-upload>
             </el-form-item>
-            <!-- <el-dialog v-model="dialogVisible">
-              <img w-full :src="imageUrl"  alt="Preview Image"/>
-            </el-dialog> -->
-             <!-- 文件  -->
             <el-form-item label="上传文件：" prop="uploadlist">
             <el-upload
                 action="/api/file/img/upload"
@@ -165,6 +138,7 @@
             <span slot="tip" class="el-upload__tip">只能上传csv/xslx/xsl文件</span>
             </el-upload>
             </el-form-item>
+             -->   
             <el-form-item label="活动形式" prop="desclist">
               <el-input type="textarea" v-model="editForm.desclist" :disabled="bthShow"></el-input>
             </el-form-item>
@@ -177,20 +151,46 @@
         </el-form>
 
      </el-dialog>
+     <el-dialog title = "导入表格" :visible.sync="dialogVis" style="text-align:left">
+             <file-upload ref="pcImgSrc" :options="uploadTableOption"></file-upload> 
+             <el-row style="color:#f55;top:20px">注：仅能导入xlsx文件</el-row>
+    </el-dialog>
   </div>
 </template>
 <script>
+ import FileUpload from "../../core/comps/upload/upload.vue";
+import Pagination from '../../components/Pagination.vue'
+import { createNamespacedHelpers } from 'vuex';
+const { mapState, mapActions,mapMutations } = createNamespacedHelpers('Ages_list');
 import listData from './data.js'
-import Util from "../../core/tool/commonUtil.js";
 import TableList from "../../core/comps/table/tableList.vue";
 import { OrderList, Appmanage, deleteProduct } from "../../api/userMG.js";
 export default {
   name: "Ages",
-  components: { TableList },
+  components: { TableList,Pagination,FileUpload },
   data() {
     return {
+      uploadTableOption:{
+                vtype:"xlsx",
+                size:"100",
+                fname:"file",
+                fhide:true,
+                // completedCallback:this.imgCb,
+                url:'/cmsex/store/import',
+                analysis:(d)=>{
+                    if(d.data.status!=200){
+                        this.alert.showAlert("error",d.data.msg);
+                    }else{
+                        this.dialogVis = false;
+                        this.alert.showAlert("success","导入成功");
+                    }
+                }
+      },
+      multipleSelection:[],
+      luckyDrawTable:"sk",
+      dialogVis:false,
       bthShow: false,
-      optionsTable: {
+      optionsTable: {//封装列表
         showCk: true,
         map: [
           { key: "gcode", val: "商品编码" },
@@ -208,7 +208,6 @@ export default {
           { key: "updatetime", val: "结束平台" },
         ],
         getUrl: () => {
-          console.log(this.listdata.data);
           return `/openapi/lenovo.floorPirce.query?deptName=${this.formInline.deptName}`;
         },
         pageOption: {
@@ -218,8 +217,6 @@ export default {
           size: 10,
         },
         analysis: (data) => {
-          console.log(this.listData);
-          console.log(data);
           if (!data || !data.data) return { data: [], count: 0 };
           return {
             data: data.data.datas,
@@ -227,14 +224,18 @@ export default {
           };
         },
       },
+      pageparm: {
+      currentPage: 1,
+      pageSize: 10,
+      total: 10
+      },
       fileList: [], //上传文件
       imageUrl: "", //上传图片
       dialogVisible: false,
       fileData: {
-        // 额外参数
-        // id: ''
       },
-      listData, //数据
+      listData:listData.data.data, //分页
+      listsdata:listData.data.data.t.datas,//数据
       loading: false, //加载
       editFormVisible: false, //弹窗
       editForm: {
@@ -245,7 +246,7 @@ export default {
         giftphoto: [],
         picture: "",
         uploadlist: "",
-        endtime: "",
+        eDeliveryTime: "",
         updatetime: "",
         desclist: "",
       },
@@ -304,7 +305,16 @@ export default {
       ],
     };
   },
+  computed:{
+    ...mapState(['paydataList'])
+  },
   methods: {
+    exporttoTable(){
+       this.dialogVis=true
+    },
+    handleSelectionChange(val){
+      this.multipleSelection = val;
+    },
     resetForm(){
       this.formInline= {
         //筛选
@@ -313,20 +323,16 @@ export default {
         deptNo: "",
         id: "",
         activityCycle: "",
-      },
-        this.$refs["luckyDrawTable"].search();
+      }
     },
     exportTable() {
       //导出
-      let tkstock = this.$refs["luckyDrawTable"];
-      let items = tkstock.getCheckedItems().data;
-      if (items.length == 0) {
+      if (this.multipleSelection.length == 0) {
         window.location = `api/comment/comment/newMessageAskBack/exportMsgAskClient`;
       }
-      if (items.length != 0) {
-        console.log(354);
+      if (this.multipleSelection.length != 0) {
         let _id = [];
-        items.forEach((ite) => {
+        this.multipleSelection.forEach((ite) => {
           _id.push(ite.id);
         });
         window.location = `api/comment/comment/newMessageAskBack/exportMsgAskClient?id=${_id.join(
@@ -335,9 +341,7 @@ export default {
       }
     },
     deupleEdit(type) {
-      //删除
-      let tkstock = this.$refs["luckyDrawTable"];
-      let items = tkstock.getCheckedItems().data;
+      let items = this.multipleSelection
       console.log(items);
       if (items.length != 1) {
         return this.$message.error("请选择一条数据进行操作！");
@@ -346,13 +350,11 @@ export default {
         id: items[0].id,
       };
       if (type == "1") {
-        console.log(123);
         this.$confirm("此操作将永久删除该文件, 是否继续?", "提示", {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
           type: "warning",
-        })
-          .then(() => {
+        }).then(() => {
             deleteProduct(params).then((r) => {
               if (r.success == true) {
                 this.$message({
@@ -379,8 +381,7 @@ export default {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
           type: "warning",
-        })
-          .then(() => {
+        }).then(() => {
             deleteProduct(params).then((r) => {
               if (r.success == true) {
                 this.$message({
@@ -394,8 +395,7 @@ export default {
                 });
               }
             });
-          })
-          .catch(() => {
+          }).catch(() => {
             this.$message({
               type: "info",
               message: "已取消启用",
@@ -407,8 +407,7 @@ export default {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
           type: "warning",
-        })
-          .then(() => {
+        }).then(() => {
             deleteProduct(params).then((r) => {
               if (r.success == true) {
                 this.$message({
@@ -422,8 +421,7 @@ export default {
                 });
               }
             });
-          })
-          .catch(() => {
+          }).catch(() => {
             this.$message({
               type: "info",
               message: "已取消停用",
@@ -432,7 +430,6 @@ export default {
       }
     },
     handleChanged(file, fileList) {
-      console.log(file);
       this.editForm.uploadlist = fileList;
     },
     handleExceed(file, fileList) {
@@ -535,8 +532,6 @@ export default {
       this.dialogVisible = true;
     },
     handleimg(res, file, fileList) {
-      console.log(res);
-      console.log(fileList);
       if (res.status === 200) {
         this.editForm.picture = res.data;
         this.$message("上传成功");
@@ -544,8 +539,8 @@ export default {
         this.$message.error(`图片${file.name}上传失败`);
       }
     },
-    search: function () {
-      this.$refs["luckyDrawTable"].search();
+    search() {
+      this.$refs.luckyDrawTable.value
     },
     newbuilt() {
       //新建
@@ -567,15 +562,14 @@ export default {
     submitForm(editForm) {
       //确定
       let params = {
-        deptName: this.editForm.deptName,
-        gname: this.editForm.gname,
-        deptNo: this.editForm.deptNo,
-        floorNumber: this.editForm.floorNumber,
-        giftphoto: this.editForm.giftphoto,
-        picture: this.editForm.picture,
-        uploadlist: this.editForm.uploadlist,
-        endtime: this.editForm.endtime,
-        updatetime: this.editForm.updatetime,
+          deptName: this.editForm.deptName,
+          gname: this.editForm.gname,
+          deptNo: this.editForm.deptNo,
+          floorNumber: this.editForm.floorNumber,
+          giftphoto: this.editForm.giftphoto,
+          uploadlist: this.editForm.uploadlist,
+          endtime: this.editForm.endtime,
+          updatetime: this.editForm.updatetime,
       };
       this.$refs[editForm].validate((valid) => {
         if (!valid) {
@@ -591,11 +585,9 @@ export default {
         }
       });
     },
-
     handleEdit(flag) {
-      console.log(flag);
-      let tkstock = this.$refs["luckyDrawTable"];
-      let items = tkstock.getCheckedItems().data;
+    console.log(flag);
+    let items = this.multipleSelection
       if (items.length != 1) {
         return this.$message.error("请选择一项数据");
       } else {
@@ -604,30 +596,25 @@ export default {
           this.editFormVisible = true;
           this.title = "修改";
           this.editForm = {
-            deptName: items[0].deptName,
-            gname: items[0].gname,
+            deptName: items[0].name,
+            gname: items[0].crowdGoodsName,
             deptNo: items[0].id,
             floorNumber: items[0].floorNumber,
-            giftphoto: items[0].itemsgiftphoto,
-            picture: items[0].gcode,
+            updatetime: items[0].createTime,
+            eDeliveryTime: items[0].endTime,
             uploadlist: items[0].uploadlist,
-            endtime: items[0].createtime,
-            updatetime: items[0].updatetime,
           };
         } else {
           this.editFormVisible = true;
           this.bthShow = true;
           this.title = "详情";
           this.editForm = {
-            deptName: items[0].deptName,
-            gname: items[0].gname,
+            deptName: items[0].name,
+            gname: items[0].crowdGoodsName,
             deptNo: items[0].id,
             floorNumber: items[0].floorNumber,
-            giftphoto: items[0].itemsgiftphoto,
-            picture: items[0].gcode,
-            uploadlist: items[0].uploadlist,
-            endtime: items[0].createtime,
-            updatetime: items[0].updatetime,
+            updatetime: items[0].createTime,
+            eDeliveryTime: items[0].endTime,
           };
         }
       }
@@ -649,24 +636,52 @@ export default {
       });
       return _status;
     },
+    logisticData(row){//审核状态
+        let _par = ''
+        this.paydataList.statusType.forEach(e =>{
+          if(row.status==e.value){
+            _par = e.key
+          }
+        })
+        return _par
+    },
+    lenovofrom(row){//商城
+       let _ovo = ''
+       this.paydataList.shopType.forEach(e =>{
+         if(row.bussinessFinish == e.value){
+           _ovo = e.key
+         }
+       })
+       return _ovo
+    },
+    appfromnum(row){//返现平台
+      let _app = ''
+      this.paydataList.helpCondType.forEach(e =>{
+        if(row.careNum==e.value){
+          _app = e.key
+        }
+      })
+      return _app
+    },
+    callFather(parm) {// 分页插件事件
+        this.formInline.pageSize = parm.currentPage
+        this.formInline.limit = parm.currentPage
+        this.getdata(this.formInline)
+    }
   },
   created() {
-
+   // this.getdata()
   },
 };
 </script>
 
 <style scoped>
 .user-search {
-  width: 120%;
-  height: 100vh !important;
+  width: 100vh;
+  height: 100% !important;
   float: none;
   position: relative;
 }
-/* .addDialog{
-  overflow: hidden;
-  margin-top: -100px;
-} */
 .oper-box {
   text-align: left;
 }
